@@ -1,32 +1,90 @@
-# ⚠️ Gas Leakage Detection & Automatic Protection System
+# 🔴 Gas Leakage Detection & Automatic Protection System
 
 <div align="center">
 
 ![Arduino](https://img.shields.io/badge/Arduino-UNO-00979D?style=for-the-badge&logo=arduino&logoColor=white)
-![Sensor](https://img.shields.io/badge/Sensor-MQ--135-red?style=for-the-badge)
-![Safety](https://img.shields.io/badge/Type-Safety%20Critical-critical?style=for-the-badge)
-![Response](https://img.shields.io/badge/Response%20Time-%3C500ms-brightgreen?style=for-the-badge)
-![License](https://img.shields.io/badge/License-MIT-blue?style=for-the-badge)
+![Language](https://img.shields.io/badge/Language-C%2B%2B-blue?style=for-the-badge&logo=cplusplus)
+![Domain](https://img.shields.io/badge/Domain-Safety%20Systems-red?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
+![Status](https://img.shields.io/badge/Status-Prototype%20Complete-brightgreen?style=for-the-badge)
+![Response](https://img.shields.io/badge/Response-Automatic-orange?style=for-the-badge)
 
-**Core skills:** `Analog Gas Sensing` · `Adaptive Threshold Calibration` · `Multi-Output Alerting` · `Servo Actuation` · `Fail-Safe Design`
+**Skills demonstrated:**
+`Embedded C++` · `Analog Gas Sensing` · `Interrupt-Driven Safety Logic` · `Servo Actuation` · `Threshold Calibration` · `Rapid Prototyping`
 
 </div>
 
 ---
 
-## ☠️ Why This Exists
+## 🚨 The Problem
 
-Gas leaks don't knock before entering. LPG and methane are colourless, nearly odourless at low concentrations, and completely undetectable by humans until the level is already dangerous. Most accidents happen while people are asleep or simply not paying attention — by the time someone notices, it's too late to react calmly.
+**Gas leaks don't announce themselves.**
 
-This project removes the human from the detection loop entirely. The moment gas crosses a safe level, the system reacts — valve closes, buzzer sounds, red LED fires — all automatically, in under 500ms, without anyone needing to be present.
+LPG, methane, and other harmful gases are colourless and odourless in low concentrations. By the time a person smells something unusual, the concentration may already be at dangerous levels. In homes and industrial kitchens, a slow undetected leak near an ignition source can turn into a disaster in seconds.
+
+> 🇮🇳 India records thousands of LPG-related accidents annually. A large proportion occur not from catastrophic failures, but from slow, undetected leaks that accumulate over time — entirely preventable with early detection.
+
+Traditional approaches rely on human awareness. This project eliminates that dependency entirely.
+
+The question this project set out to answer: *What if the valve just closed itself the moment gas was detected?*
+
+---
+
+## 💼 Business Case
+
+| Pain Point | Real-World Impact |
+|-----------|-------------------|
+| Gas leaks are invisible until dangerous concentration | No warning → no reaction → accident |
+| Human detection is slow and unreliable | People sleep, are distracted, or away |
+| Manual valve shutoff requires physical presence | Impossible in a fire or evacuation scenario |
+
+### What this project delivers
+
+An automatic gas leak detector costing under **₹750** that requires zero human intervention can:
+
+- **Detect gas in real time** — MQ-135 continuously monitors air quality, not just on demand
+- **React in under 500ms** — servo closes the valve the moment threshold is crossed
+- **Reset automatically** — when gas clears, the valve reopens without manual intervention
+- **Scale to real deployments** — add a GSM module to SMS alerts, or a relay to cut the main gas supply
+- **Provide serial logging** — every gas reading is timestamped for diagnostics
+
+This prototype proves that safety automation doesn't need to be expensive or complex.
 
 ---
 
 ## 📌 Project Overview
 
-A self-built safety prototype using an Arduino UNO, MQ-135 gas sensor, servo motor (simulating a valve), active buzzer, and red/green LEDs. The system calibrates its own safe baseline on startup, then continuously monitors air quality and triggers a full alert — visual, audible, and mechanical — the moment gas is detected.
+A **fully functional prototype** of an automatic gas leakage detection and valve control system using an Arduino UNO, an MQ-135 gas sensor, and a servo motor acting as a safety valve. The system continuously monitors ambient gas concentration and autonomously rotates the servo to close the valve when gas levels exceed a safe threshold — then reopens it automatically when the air clears.
 
-**Total build cost: ₹689.**
+This project demonstrates: analog gas sensor interfacing, threshold-based safety logic, real-time PWM servo actuation, and serial monitoring — all under ₹750.
+
+---
+
+## ⚙️ System Architecture
+
+```
+┌──────────────────┐   analog (0–1023) ┌──────────────────┐   PWM signal   ┌────────────────┐
+│   MQ-135 Gas         │ ──────────────▶│                     │────────────▶│   SG90 Servo       │
+│   Sensor             │                   │     Arduino UNO     │                │                   │
+│   [ A0 pin ]         │                   │                     │                │  0°  = OPEN       │
+└──────────────────┘                   │  if reading > 130    │               │  30° = CLOSED      │
+                                           │  → close valve      │               │                    │
+                                           │  else → open valve  │               └─────────────────┘
+                                           └──────────────────┘
+                                                   ↑
+                                         Sense → Compare → Actuate
+                                           (loop every 500ms)
+```
+
+**Control Logic:**
+
+1. MQ-135 continuously outputs an analog voltage proportional to gas concentration.
+2. Arduino reads this as a value from 0–1023 via `analogRead(A0)`.
+3. If the reading **exceeds the threshold (130)** → servo rotates to **30° (valve closed)** + serial alert.
+4. If the reading **drops below threshold** → servo returns to **0° (valve open)** + "Safe" logged.
+5. Loop repeats every 500ms — fast enough for safety, stable enough to avoid false triggers.
+
+---
 
 ---
 
