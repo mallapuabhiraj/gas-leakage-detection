@@ -2,16 +2,6 @@
 
 <div align="center">
 
-```
-  ╔══════════════════════════════════════════════════════╗
-  ║  GAS MONITOR v1.0          [ ARDUINO UNO + MQ-135 ] ║
-  ║  ─────────────────────────────────────────────────  ║
-  ║  Gas Level  : 052        Threshold : 130            ║
-  ║  Valve      : OPEN       LED       : 🟢 GREEN       ║
-  ║  Buzzer     : OFF        Status    : ✅  SAFE        ║
-  ╚══════════════════════════════════════════════════════╝
-```
-
 ![Arduino](https://img.shields.io/badge/Arduino-UNO-00979D?style=for-the-badge&logo=arduino&logoColor=white)
 ![Sensor](https://img.shields.io/badge/Sensor-MQ--135-red?style=for-the-badge)
 ![Safety](https://img.shields.io/badge/Type-Safety%20Critical-critical?style=for-the-badge)
@@ -78,8 +68,6 @@ A self-built safety prototype using an Arduino UNO, MQ-135 gas sensor, servo mot
 | 7 | Mini Breadboard | 1 | ₹65 |
 | 8 | Jumper Wires (set) | 1 | ₹75 |
 | | | **Total** | **~₹689** |
-
-> 🛒 Prices from [Robu.in](https://robu.in), early 2026.
 
 ---
 
